@@ -1,5 +1,5 @@
 from abc import ABC
-from entities.demanda import Demanda
+from src.core.entities.demanda import Demanda
 
 class IDemandaDAO(ABC):
     def incluir(self, demanda: Demanda) -> Demanda:

@@ -1,13 +1,14 @@
-from core.entities.demanda import Demanda
-from ports.idao.idemanda import IDemandaDAO
+from src.core.entities.demanda import Demanda
+from src.core.ports.idao.idemanda import IDemandaDAO
 
 class DemandaRepository:
     def __init__(self, dao: IDemandaDAO) -> None:
         self.dao = dao
 
+    def obter_por_id(self, id: int) -> Demanda:
+        return self.dao.obter_por_id(id)
+
     def validar(self, demanda: Demanda):
-        if DemandaRepository.obter_por_id(demanda.id) is None:
-            raise ValueError("Não existe demanda com esse id")
         if (demanda.exigencias.strip() == "") or (not demanda.exigencias):
             raise ValueError("Exigência é obrigatória")
         if (demanda.prazo.strip() == "") or (not demanda.prazo):
@@ -29,6 +30,3 @@ class DemandaRepository:
 
     def listar(self) -> list[Demanda]:
         return self.dao.listar()
-
-    def obter_por_id(self, id: int) -> Demanda:
-        return self.dao.obter_por_id(id)
