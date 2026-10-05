@@ -9,6 +9,10 @@ O que deve ser feito:
 
 Entregar o arquivo "zipado" do projeto contendo a implementação e com a imagem do diagrama de modelagem das classes.
 
+## Diagrama de Domínio - Nexo
+
+<img src="diagramas/dominio_nexo.png" />
+
 ## Imagem de exemplo - Core
 
 <img src="diagramas/core_UML_TRABALHO.png" />
