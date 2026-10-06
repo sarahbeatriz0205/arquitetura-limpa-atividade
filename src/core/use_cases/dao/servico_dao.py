@@ -1,5 +1,5 @@
-from src.core.entities.dominio import Servico
-from src.core.idao.ports.idao import IServicoDAO   
+from core.entities.servico import Servico
+from src.core.ports.idao.iservico import IServicoDAO   
 
 servico = []
 
