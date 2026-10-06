@@ -1,7 +1,7 @@
 from abc import ABC
 
 
-class IServico:
+class IServicoDAO(ABC):
     @abstractmethd
     def incluir(self, obj: Servico) -> Servico:
         pass
