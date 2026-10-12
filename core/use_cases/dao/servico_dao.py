@@ -2,7 +2,7 @@ from core.entities.servico import Servico
 from core.ports.idao.iservico import IServicoDAO
 
 
-# DAO fake: os serviços ficam numa lista em memória
+
 class ServicoDAO(IServicoDAO):
     def __init__(self) -> None:
         self.servicos: list[Servico] = []

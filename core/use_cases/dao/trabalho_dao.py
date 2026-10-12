@@ -2,7 +2,7 @@ from core.entities.trabalho import Trabalho
 from core.ports.idao.itrabalho import ITrabalhoDAO
 
 
-# DAO fake: os trabalhos ficam numa lista em memória
+
 class TrabalhoDAO(ITrabalhoDAO):
     def __init__(self) -> None:
         self.trabalhos: list[Trabalho] = []

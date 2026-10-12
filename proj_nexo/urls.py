@@ -4,14 +4,6 @@ from app import views
 
 urlpatterns = [
     path("", views.home, name="home"),
-    # ===========================================================================
-    # Rotas de cada CRUD (exemplo com "trabalhos"; as demais seguem o mesmo padrão)
-    #   - trabalhos/              : exibe página de listagem
-    #   - trabalhos/incluir/      : exibe a página de inclusão de registro
-    #   - trabalhos/alterar/<id>/ : exibe a página de alteração de registro
-    #   - trabalhos/excluir/<id>/ : exibe a página de exclusão de registro
-    #   - trabalhos/salvar/       : insere, altera ou exclui um registro do BD
-    # ===========================================================================
     path("trabalhos/", views.trabalhos, name="trabalhos"),
     path("trabalhos/<str:acao>/", views.trabalhos, name="trabalhos"),
     path("trabalhos/<str:acao>/<int:id>/", views.trabalhos, name="trabalhos"),

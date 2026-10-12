@@ -5,7 +5,6 @@ from core.entities.proposta import StatusProposta, TipoProposta
 from core.entities.trabalho import StatusTrabalho
 
 
-# formulario utilizado para edicao de registros de trabalhos
 class TrabalhoForm(forms.Form):
     id = forms.IntegerField(
         label="ID", widget=forms.TextInput(attrs={"readonly": "readonly"}), required=False
@@ -20,13 +19,11 @@ class TrabalhoForm(forms.Form):
     )
 
 
-# formulario utilizado para edicao de registros de servicos
 class ServicoForm(TrabalhoForm):
     metodologia = forms.CharField(label="Metodologia", max_length=200, required=True)
     ferramenta = forms.CharField(label="Ferramenta", max_length=200, required=True)
 
 
-# formulario utilizado para edicao de registros de demandas
 class DemandaForm(TrabalhoForm):
     exigencias = forms.CharField(
         label="Exigências", widget=forms.Textarea(attrs={"rows": 3, "cols": 40}), required=True
@@ -34,7 +31,6 @@ class DemandaForm(TrabalhoForm):
     prazo = forms.CharField(label="Prazo", max_length=50, required=True)
 
 
-# formulario utilizado para edicao de registros de propostas
 class PropostaForm(forms.Form):
     id = forms.IntegerField(
         label="ID", widget=forms.TextInput(attrs={"readonly": "readonly"}), required=False

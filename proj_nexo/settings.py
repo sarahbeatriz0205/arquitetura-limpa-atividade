@@ -10,7 +10,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "django.contrib.staticfiles",
-    # aplicação web do projeto (views, forms, templates, DAOs com ORM)
     "app",
 ]
 
@@ -38,8 +37,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "proj_nexo.wsgi.application"
 
-# A conexão com o banco é configurada pela classe ConexaoBD_ORM (app/dao.py),
-# que registra o alias "db_nexo" na configuração do Django.
 DATABASES = {}
 
 LANGUAGE_CODE = "pt-br"

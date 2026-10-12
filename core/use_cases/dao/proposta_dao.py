@@ -2,7 +2,7 @@ from core.entities.proposta import Proposta
 from core.ports.idao.iproposta import IPropostaDAO
 
 
-# DAO fake: as propostas ficam numa lista em memória
+
 class PropostaDAO(IPropostaDAO):
     def __init__(self) -> None:
         self.propostas: list[Proposta] = []

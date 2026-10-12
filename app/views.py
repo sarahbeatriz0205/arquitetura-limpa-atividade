@@ -11,9 +11,6 @@ from core.entities.servico import Servico
 from core.entities.trabalho import StatusTrabalho, Trabalho
 
 
-# ============================================================================
-# Conversão dos dados do formulário (POST) para objetos de domínio
-# ============================================================================
 def _id_do_formulario(form_data):
     return int(form_data["id"]) if form_data.get("id") else None
 
@@ -58,9 +55,6 @@ def _proposta_do_formulario(form_data, id=None) -> Proposta:
     )
 
 
-# ============================================================================
-# Conversão de objetos de domínio para os dados iniciais do formulário
-# ============================================================================
 def _dados_trabalho(trabalho: Trabalho) -> dict:
     return {
         "id": trabalho.id,
@@ -95,14 +89,10 @@ def _dados_proposta(proposta: Proposta) -> dict:
     }
 
 
-# ============================================================================
-# Operações de cada CRUD (usam apenas os Repositories do core)
-# ============================================================================
 def _alias_bd() -> str:
     return ServicosFactory().obter_conexao_bd().DB_ALIAS
 
 
-# ---- Trabalho
 def _trabalho_incluir(form_data):
     ServicosFactory().obter_trabalho_repository().incluir(_trabalho_do_formulario(form_data))
 
@@ -120,7 +110,6 @@ def _trabalho_excluir(id):
     repo.excluir(trabalho)
 
 
-# ---- Serviço (grava o Trabalho e o Serviço na mesma transação)
 def _servico_incluir(form_data):
     fabrica = ServicosFactory()
     with transaction.atomic(using=_alias_bd()):
@@ -140,7 +129,6 @@ def _servico_excluir(id):
     ServicosFactory().obter_servico_repository().excluir(id)
 
 
-# ---- Demanda (grava o Trabalho e a Demanda na mesma transação)
 def _demanda_incluir(form_data):
     fabrica = ServicosFactory()
     with transaction.atomic(using=_alias_bd()):
@@ -164,7 +152,6 @@ def _demanda_excluir(id):
     repo.excluir(demanda)
 
 
-# ---- Proposta
 def _proposta_incluir(form_data):
     ServicosFactory().obter_proposta_repository().incluir(_proposta_do_formulario(form_data))
 
@@ -182,22 +169,14 @@ def _proposta_excluir(id):
     repo.excluir(proposta)
 
 
-# ============================================================================
-# Tratamento comum dos CRUDs: listar, incluir, alterar, excluir e salvar
-# ============================================================================
 def _tratar_crud(request, acao, id, cfg):
     try:
-        # define a classe de serviço
         servico = cfg["repository"]()
 
-        # Listar registros
-        # '<recurso>/': Exibir a pagina de listagem
         if acao is None:
             registros = servico.listar()
             return render(request, cfg["listar"], context={"registros": registros})
 
-        # Salvar registro
-        # '<recurso>/salvar/': insere, altera ou exclui um registro
         elif acao == "salvar":
             if request.method != "POST":
                 raise Exception("Ação inválida")
@@ -212,11 +191,8 @@ def _tratar_crud(request, acao, id, cfg):
                 else:
                     cfg["alterar"](form_data)
 
-                # Sempre retornar um HttpResponseRedirect após processar dados "POST".
-                # Isso evita que os dados sejam postados 2 vezes caso usuário clicar "Voltar".
                 return HttpResponseRedirect(reverse(cfg["rota"]))
 
-            # se ocorreu algum erro, insere a mensagem para ser exibida no contexto da página
             except Exception as err:
                 return render(
                     request,
@@ -228,20 +204,14 @@ def _tratar_crud(request, acao, id, cfg):
                     },
                 )
 
-        # inserir registro
-        # '<recurso>/incluir/': Exibir a pagina de inclusão
         elif acao == "incluir":
             return render(
                 request, cfg["editar"], context={"acao": "Inclusão", "form": cfg["form"]()}
             )
 
-        # Alterar ou excluir registro
-        # '<recurso>/alterar/<:id>/': Exibir a pagina de alteração
-        # '<recurso>/excluir/<:id>/': Exibir a pagina de exclusão
         elif acao in ["alterar", "excluir"]:
             acao = "Alteração" if acao == "alterar" else "Exclusão"
 
-            # seleciona o registro pelo id informado
             registro = servico.obter_por_id(id)
             if registro is None:
                 raise Exception("Registro não encontrado.")
@@ -249,16 +219,13 @@ def _tratar_crud(request, acao, id, cfg):
 
             return render(request, cfg["editar"], context={"acao": acao, "form": form})
 
-        # acao INVALIDA
         else:
             raise Exception("Ação inválida")
 
-    # se ocorreu algum erro, insere a mensagem para ser exibida no contexto da página
     except Exception as err:
         return render(request, "home.html", context={"ERRO": err})
 
 
-# Método responsavel por listar, incluir, alterar e excluir os Trabalhos.
 def trabalhos(request, acao=None, id=None):
     return _tratar_crud(
         request,
@@ -278,7 +245,6 @@ def trabalhos(request, acao=None, id=None):
     )
 
 
-# Método responsavel por listar, incluir, alterar e excluir os Serviços.
 def servicos(request, acao=None, id=None):
     return _tratar_crud(
         request,
@@ -298,7 +264,6 @@ def servicos(request, acao=None, id=None):
     )
 
 
-# Método responsavel por listar, incluir, alterar e excluir as Demandas.
 def demandas(request, acao=None, id=None):
     return _tratar_crud(
         request,
@@ -318,7 +283,6 @@ def demandas(request, acao=None, id=None):
     )
 
 
-# Método responsavel por listar, incluir, alterar e excluir as Propostas.
 def propostas(request, acao=None, id=None):
     return _tratar_crud(
         request,
@@ -338,7 +302,6 @@ def propostas(request, acao=None, id=None):
     )
 
 
-# Exibe a página inicial da aplicação
 def home(request):
     """Exibe a pagina inicial da aplicação"""
     return render(request, "home.html")

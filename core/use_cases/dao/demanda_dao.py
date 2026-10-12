@@ -2,7 +2,7 @@ from core.entities.demanda import Demanda
 from core.ports.idao.idemanda import IDemandaDAO
 
 
-# DAO fake: as demandas ficam numa lista em memória
+
 class DemandaDAO(IDemandaDAO):
     def __init__(self) -> None:
         self.demandas: list[Demanda] = []
