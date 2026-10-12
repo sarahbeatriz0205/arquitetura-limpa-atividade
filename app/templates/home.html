@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titulo_pagina %}
+<h2 class="titulo_pagina">Home</h2>
+{% endblock %}
+
+{% block conteudo %}
+<h1>Cadastros do <strong>Nexo</strong> usando o <strong>core</strong> da Arquitetura Limpa e o <strong>ORM do Django</strong>.</h1>
+<br>
+<br>
+<div style="text-align: center;">
+    <h1 style="text-align: center;">Diagrama de Domínio:</h1>
+    <br>
+    <img src="{% static 'imagens/dominio_nexo.png' %}" alt="Diagrama de domínio do Nexo" width="100%">
+</div>
+{% endblock %}

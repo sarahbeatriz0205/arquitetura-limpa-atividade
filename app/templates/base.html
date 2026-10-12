@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Nexo</title>
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+
+</head>
+<body>
+    <!-- CABECALHO DA PAGINA -->
+    <a id="a_header" href="/">
+        <header>
+            <h2>Nexo</h2>
+        </header>
+    </a>
+    <!-- MENU LATERAL DE NAVEGACAO -->
+    <nav>
+        <ul>
+            <li>  <a href="{% url 'trabalhos' %}">Trabalhos</a> </li>
+            <li>  <a href="{% url 'servicos' %}">Serviços</a> </li>
+            <li>  <a href="{% url 'demandas' %}">Demandas</a> </li>
+            <li>  <a href="{% url 'propostas' %}">Propostas</a> </li>
+        </ul>
+    </nav>
+    <!-- CONTEUDO DAS PAGINAS -->
+    <main>
+        <!-- Este bloco será utilizado para exibir o título da página -->
+        <div id="titulo_pagina">
+            {% block titulo_pagina %}
+                Título da Página
+            {% endblock %}
+        </div>
+        <!-- Exibe mensagem de ERRO, caso tenha ocorrido algum -->
+        {% if ERRO %}
+            <h3 class="erro">ERRO: {{ERRO}}</h3>
+            <br>
+        {% endif %}
+
+        <!-- Este bloco será utilizado para inserir o conteúdo das páginas. -->
+        <div id="conteudo">
+            {% block conteudo %}
+                Conteúdo da Página
+            {% endblock %}
+        </div>
+    </main>
+</body>

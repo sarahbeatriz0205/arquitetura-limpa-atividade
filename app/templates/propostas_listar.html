@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load rotulos %}
+
+{% block titulo_pagina %}
+    <h2 class="titulo_pagina">Cadastro de Propostas</h2>
+{% endblock %}
+
+{% block conteudo %}
+
+    <div style="margin-left: 5px;">
+        <a class="btn medium" href="{% url 'propostas' acao='incluir' %}">Incluir</a>
+    </div>
+
+    <!-- TABELA HTML COM OS REGISTROS -->
+    <table>
+        <!-- CABECALHO DA TABELA HTML -->
+        <thead>
+            <tr>
+                <th class="id">ID</th>
+                <th>Orçamento</th>
+                <th>Apresentação</th>
+                <th>Prazo</th>
+                <th>Tipo</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <!-- LINHAS DA TABELA HTML CONTENDO OS REGISTROS -->
+        <tbody>
+            <!-- LOOP PARA PEGAR CADA REGISTRO -->
+            {% for reg in registros %}
+            <tr>
+                <td class="id">{{ reg.id }}</td>
+                <td>{{ reg.orcamento }}</td>
+                <td>{{ reg.apresentacao|truncatechars:60 }}</td>
+                <td>{{ reg.prazo }}</td>
+                <td>{{ reg.tipo|rotulo }}</td>
+                <td>{{ reg.status|rotulo }}</td>
+                <td>
+                    <a class="btn small" href="{% url 'propostas' acao='alterar' id=reg.id %}">Alterar</a>
+
+                    <a class="btn-del small" href="{% url 'propostas' acao='excluir' id=reg.id %}">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

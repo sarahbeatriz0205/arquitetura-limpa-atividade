@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load rotulos %}
+
+{% block titulo_pagina %}
+    <h2 class="titulo_pagina">Cadastro de Demandas</h2>
+{% endblock %}
+
+{% block conteudo %}
+
+    <div style="margin-left: 5px;">
+        <a class="btn medium" href="{% url 'demandas' acao='incluir' %}">Incluir</a>
+    </div>
+
+    <!-- TABELA HTML COM OS REGISTROS -->
+    <table>
+        <!-- CABECALHO DA TABELA HTML -->
+        <thead>
+            <tr>
+                <th class="id">ID</th>
+                <th>Título</th>
+                <th>Exigências</th>
+                <th>Prazo</th>
+                <th>Orçamento</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <!-- LINHAS DA TABELA HTML CONTENDO OS REGISTROS -->
+        <tbody>
+            <!-- LOOP PARA PEGAR CADA REGISTRO -->
+            {% for reg in registros %}
+            <tr>
+                <td class="id">{{ reg.id }}</td>
+                <td>{{ reg.trabalho.titulo }}</td>
+                <td>{{ reg.exigencias|truncatechars:60 }}</td>
+                <td>{{ reg.prazo }}</td>
+                <td>{{ reg.trabalho.orcamento }}</td>
+                <td>{{ reg.trabalho.status|rotulo }}</td>
+                <td>
+                    <a class="btn small" href="{% url 'demandas' acao='alterar' id=reg.id %}">Alterar</a>
+
+                    <a class="btn-del small" href="{% url 'demandas' acao='excluir' id=reg.id %}">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
