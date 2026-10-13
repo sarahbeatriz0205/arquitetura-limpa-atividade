@@ -9,6 +9,8 @@ ROTULOS = {
     StatusProposta.PENDENTE: "Pendente",
     StatusProposta.ACEITA: "Aceita",
     StatusProposta.RECUSADA: "Recusada",
+    TipoTrabalho.SERVICO: "Serviço",
+    TipoTrabalho.DEMANDA: "Demanda"
 }
 
 

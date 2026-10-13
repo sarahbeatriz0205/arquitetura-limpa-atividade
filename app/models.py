@@ -7,6 +7,7 @@ class TrabalhoModel(models.Model):
     descricao = models.TextField()
     orcamento = models.CharField(max_length=50)
     status = models.IntegerField(default=1)
+    tipo = models.IntegerField()
 
     class Meta:
         db_table = "Trabalho"
@@ -42,6 +43,7 @@ class PropostaModel(models.Model):
     exigencia = models.TextField()
     tipo = models.IntegerField()
     status = models.IntegerField(default=1)
+    
 
     class Meta:
         db_table = "Proposta"
