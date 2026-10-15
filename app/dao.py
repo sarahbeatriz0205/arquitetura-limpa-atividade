@@ -231,22 +231,38 @@ class PropostaDAO_ORM(IPropostaDAO):
     @staticmethod
     def helper_converter_model_para_dominio(model_instance) -> Proposta:
         proposta_dict = model_to_dict(model_instance)
+        proposta_dict["servico_id"] = proposta_dict.pop("servico")
+        proposta_dict["demanda_id"] = proposta_dict.pop("demanda")
         proposta_dict["tipo"] = TipoProposta(model_instance.tipo)
         proposta_dict["status"] = StatusProposta(model_instance.status)
         return Proposta(**proposta_dict)
 
     def incluir(self, obj: Proposta) -> Proposta:
         obj_asdict = asdict(obj)
+        obj_asdict.pop("id")                              
+        servico_id = obj_asdict.pop("servico_id")            
+        demanda_id = obj_asdict.pop("demanda_id")            
         obj_asdict["tipo"] = obj.tipo.value
         obj_asdict["status"] = obj.status.value
         model_instance = PropostaModel(**obj_asdict)
+        model_instance.servico_id = servico_id              
+        model_instance.demanda_id = demanda_id  
         model_instance.save(using=self._conexao.DB_ALIAS)
         return self.helper_converter_model_para_dominio(model_instance)
 
     def alterar(self, obj: Proposta) -> Proposta:
         if self.obter_por_id(obj.id) is None:
             raise ValueError("Proposta não encontrada.")
-        return self.incluir(obj)
+        obj_asdict = asdict(obj)
+        servico_id = obj_asdict.pop("servico_id")
+        demanda_id = obj_asdict.pop("demanda_id")
+        obj_asdict["tipo"] = obj.tipo.value
+        obj_asdict["status"] = obj.status.value
+
+        model_instance = PropostaModel(**obj_asdict)
+        model_instance.servico_id = servico_id
+        model_instance.demanda_id = demanda_id
+        model_instance.save(using=self._conexao.DB_ALIAS)
 
     def excluir(self, obj: Proposta) -> None:
         apagados, _ = (

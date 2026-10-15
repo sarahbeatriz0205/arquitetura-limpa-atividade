@@ -16,6 +16,8 @@ class StatusProposta(Enum):
 @dataclass
 class Proposta:
     id: int
+    servico_id: int | None
+    demanda_id: int | None 
     orcamento: str
     apresentacao: str
     prazo: str

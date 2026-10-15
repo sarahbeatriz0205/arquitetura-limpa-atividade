@@ -14,7 +14,8 @@ class TrabalhoModel(models.Model):
 
 class ServicoModel(models.Model):
     trabalho = models.OneToOneField(
-        TrabalhoModel, primary_key=True, on_delete=models.CASCADE
+        TrabalhoModel, on_delete=models.CASCADE,
+        primary_key=True, related_name="servico",
     )
     metodologia = models.CharField(max_length=200)
     ferramenta = models.CharField(max_length=200)
@@ -25,7 +26,8 @@ class ServicoModel(models.Model):
 
 class DemandaModel(models.Model):
     trabalho = models.OneToOneField(
-        TrabalhoModel, primary_key=True, on_delete=models.CASCADE
+        TrabalhoModel, on_delete=models.CASCADE,
+        primary_key=True, related_name="demanda",
     )
     exigencias = models.TextField()
     prazo = models.CharField(max_length=50)
@@ -36,6 +38,8 @@ class DemandaModel(models.Model):
 
 class PropostaModel(models.Model):
     id = models.AutoField(primary_key=True)
+    servico = models.ForeignKey(ServicoModel, null=True, on_delete=models.PROTECT, related_name="propostas")
+    demanda = models.ForeignKey(DemandaModel, null=True, on_delete=models.PROTECT, related_name="propostas")
     orcamento = models.CharField(max_length=50)
     apresentacao = models.TextField()
     prazo = models.CharField(max_length=50)

@@ -44,13 +44,17 @@ def _demanda_do_formulario(form_data, trabalho: Trabalho) -> Demanda:
 
 
 def _proposta_do_formulario(form_data, id=None) -> Proposta:
+    tipo = TipoProposta(int(form_data["tipo"]))
+    trabalho_id = int(form_data["trabalho_id"])
     return Proposta(
         id=id,
+        servico_id=trabalho_id if tipo == TipoProposta.PARA_SERVICO else None,
+        demanda_id=trabalho_id if tipo == TipoProposta.PARA_DEMANDA else None,
         orcamento=form_data["orcamento"],
         apresentacao=form_data["apresentacao"],
         prazo=form_data["prazo"],
         exigencia=form_data["exigencia"],
-        tipo=TipoProposta(int(form_data["tipo"])),
+        tipo=tipo,
         status=StatusProposta(int(form_data["status"])),
     )
 
@@ -80,6 +84,7 @@ def _dados_demanda(demanda: Demanda) -> dict:
 def _dados_proposta(proposta: Proposta) -> dict:
     return {
         "id": proposta.id,
+        "trabalho_id": proposta.servico_id or proposta.demanda_id,
         "orcamento": proposta.orcamento,
         "apresentacao": proposta.apresentacao,
         "prazo": proposta.prazo,
